@@ -8,6 +8,7 @@ let current = null // tarea actual q se esta ejecutando
 const bAdd = document.querySelector("#bAdd") // boton para agregar tarea
 const itTask = document.querySelector("#itTask")
 const form = document.querySelector("#form")
+const taskName = document.querySelector("#time #taskName") // nombre de la tarea
 
 form.addEventListener("submit", (e) => {
   e.preventDefault()   // evita que se recargue la pagina
@@ -39,12 +40,12 @@ function renderTasks() { // funcion para renderizar las tareas
   const tasksContainer = document.querySelector("#tasks") // selecciona el contenedor de las tareas
   tasksContainer.innerHTML = html.join("") // agrega las tareas al contenedor
 
-  const startButtons = document.querySelectorAll(". task .start-button") // selecciona todos los botones de start
+  const startButtons = document.querySelectorAll(".task .start-button") // selecciona todos los botones de start
 
   startButtons.forEach(button => { // por cada boton de start
     button.addEventListener("click", (e) => { // agrega un evento click
       if(!timer){
-          const id = button.getAttribute("data-id") // obtiene el id de la tarea
+        const id = button.getAttribute("data-id") // obtiene el id de la tarea
         startButtonHandler(id) // manda llamar la funcion startButtonHandler
         button.textContent = "In Progress..." // cambia el texto del boton a en progreso
       }
@@ -53,14 +54,15 @@ function renderTasks() { // funcion para renderizar las tareas
 }
 
 function startButtonHandler(id) { // funcion para manejar el boton de start
-  time = 25 * 60 // tiempo de trabajo
+  time = 5 // tiempo de trabajo
   current = id // tarea actual
+
   const taskIndex = tasks.findIndex((task) => task.id === id) // busca la tarea en el arreglo
-  const taskName = document.querySelector("#time #taskName").title // obtiene el nombre de la tarea
+
   taskName.textContent = tasks [taskIndex].title // cambia el nombre de la tarea en el DOM
 
   timer = setInterval(() => { // inicia el intervalo
-    timeHandler(id) // manda llamar la funcion timeHandler
+    timerHandler(id) // manda llamar la funcion timerHandler
   }, 1000)
 }
 
@@ -70,9 +72,45 @@ function timerHandler(id) { // funcion para manejar el tiempo
 
   if (time === 0) { // si el tiempo es menor o igual a 0
     clearInterval(timer) // limpia el intervalo
-    current = null // el timer se vuelve null
+    markCompleted(id) // manda llamar la funcion markCompleted
+    timer = null // limpia el tiempo
+    renderTasks() // manda llamar la funcion renderTime
+    startBreak() // manda llamar la funcion startBreak
+  }
+}
 
+function renderTime() { // funcion para renderizar el tiempo
+  const timeDiv = document.querySelector("#time #value") // selecciona el contenedor del tiempo
+  const minutes = parseInt(time / 60) // convierte el tiempo a minutos
+  const seconds = parseInt (time % 60) // obtiene los segundos
 
-    ------> voy en el video por el minuto 29,13 ----->
+  timeDiv.textContent = `${minutes < 10 ? "0" : ""}${minutes}:${seconds < 10 ? "0" : ""}${seconds}` // cambia el texto del contenedor del tiempo
+}
+
+function markCompleted(id) { // funcion para marcar la tarea como completada
+  const taskIndex = tasks.findIndex((task) => task.id === id) // busca la tarea en el arreglo
+  tasks[taskIndex].completed = true // cambia el estado de la tarea a completada
+  current = null // limpia la tarea actual
+  time = 0 // limpia el tiempo
+}
+
+function startBreak() { // funcion para iniciar el descanso
+  time = 3 // tiempo de descanso
+  taskName.textContent = "Break" // cambia el nombre de la tarea a descanso
+  timerBreak = setInterval(() => { // inicia el intervalo
+    timerBreakHandler() // manda llamar la funcion timerBreakHandler
+  }, 1000)
+}
+
+function timerBreakHandler() { // funcion para manejar el tiempo de descanso
+  time-- // decrementa el tiempo
+  renderTime() // manda llamar la funcion renderTime
+
+  if (time === 0) { // si el tiempo es menor o igual a 0
+    clearInterval(timerBreak) // limpia el intervalo
+    current = null // limpia la tarea actual
+    time = 0 // limpia el tiempo
+    taskName.textContent = "" // limpia el nombre de la tarea
+    renderTasks() // manda llamar la funcion renderTasks
   }
 }
