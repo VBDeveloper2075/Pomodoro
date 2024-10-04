@@ -10,6 +10,10 @@ const itTask = document.querySelector("#itTask")
 const form = document.querySelector("#form")
 const taskName = document.querySelector("#time #taskName") // nombre de la tarea
 
+// para mostrar la cuenta regresiva al inicio
+renderTime()
+renderTasks()
+
 form.addEventListener("submit", (e) => {
   e.preventDefault()   // evita que se recargue la pagina
   if (itTask.value !== "") { // si el input no esta vacio
@@ -54,7 +58,7 @@ function renderTasks() { // funcion para renderizar las tareas
 }
 
 function startButtonHandler(id) { // funcion para manejar el boton de start
-  time = 5 // tiempo de trabajo
+  time = 25 * 60 // tiempo de trabajo
   current = id // tarea actual
 
   const taskIndex = tasks.findIndex((task) => task.id === id) // busca la tarea en el arreglo
@@ -95,7 +99,7 @@ function markCompleted(id) { // funcion para marcar la tarea como completada
 }
 
 function startBreak() { // funcion para iniciar el descanso
-  time = 3 // tiempo de descanso
+  time = 5 * 60 // tiempo de descanso
   taskName.textContent = "Break" // cambia el nombre de la tarea a descanso
   timerBreak = setInterval(() => { // inicia el intervalo
     timerBreakHandler() // manda llamar la funcion timerBreakHandler
@@ -114,3 +118,4 @@ function timerBreakHandler() { // funcion para manejar el tiempo de descanso
     renderTasks() // manda llamar la funcion renderTasks
   }
 }
+
