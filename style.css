@@ -26,3 +26,49 @@ body {
   font-weight: bold;
   color: rgb(255, 81, 0);
 }
+
+.form {
+  display: flex;
+  justify-content: center;
+}
+
+input[type="text"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: solid 1px rgb(255, 81, 0);
+  margin-right: 10px;
+}
+
+button,
+input[type="submit"] {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(255, 81, 0);
+  margin: 10px;
+}
+
+#tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10p;
+
+}
+
+.task {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.tasks .completed {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.done {
+  display:inline-block;
+  padding:5px;
+  background-color: grey;
+}

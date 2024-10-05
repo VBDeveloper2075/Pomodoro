@@ -58,7 +58,7 @@ function renderTasks() { // funcion para renderizar las tareas
 }
 
 function startButtonHandler(id) { // funcion para manejar el boton de start
-  time = 25 * 60 // tiempo de trabajo
+  time = 25 *60 // tiempo de trabajo
   current = id // tarea actual
 
   const taskIndex = tasks.findIndex((task) => task.id === id) // busca la tarea en el arreglo
@@ -99,7 +99,7 @@ function markCompleted(id) { // funcion para marcar la tarea como completada
 }
 
 function startBreak() { // funcion para iniciar el descanso
-  time = 5 * 60 // tiempo de descanso
+  time = 5 *60 // tiempo de descanso
   taskName.textContent = "Break" // cambia el nombre de la tarea a descanso
   timerBreak = setInterval(() => { // inicia el intervalo
     timerBreakHandler() // manda llamar la funcion timerBreakHandler
